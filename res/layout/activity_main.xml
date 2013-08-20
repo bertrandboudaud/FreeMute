@@ -26,7 +26,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Code de la télécommande freebox. Ce code à 8 chiffres se trouve dans le menu Réglages/Télécommande de votre Freebox." />
+            android:text="Code de la télécommande Freebox. Ce code à 8 chiffres se trouve dans le menu Réglages/Télécommande de votre Freebox." />
 
         <EditText
             android:id="@+id/editTextCode"
@@ -62,6 +62,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vous devez être connecté au réseau wifi de la Freebox pour que l&apos;application puisse commander votre Freebox." />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MuteOnCall Pour Freebox © B.Boudaud"
+            android:textStyle="italic" />
+
     </LinearLayout>
 
 </RelativeLayout>

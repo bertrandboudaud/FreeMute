@@ -9,17 +9,24 @@
     tools:context=".MainActivity" >
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
 
+        <CheckBox
+            android:id="@+id/checkBoxActivate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activer" />
+
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Code de la télécommande freebox" />
+            android:text="Code de la télécommande freebox. Ce code à 8 chiffres se trouve dans le menu Réglages/Télécommande de votre Freebox." />
 
         <EditText
             android:id="@+id/editTextCode"
@@ -50,6 +57,11 @@
                 android:text="Mute au décrochage" />
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vous devez être connecté au réseau wifi de la Freebox pour que l&apos;application puisse commander votre Freebox." />
     </LinearLayout>
 
 </RelativeLayout>

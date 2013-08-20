@@ -24,10 +24,12 @@ public class FreeMutePhoneReceiver extends BroadcastReceiver {
 	String LOG_TAG = "FREEMUTERECEIVER";
 
 	protected boolean SwitchMuteFreebox(Context context) {
-		SharedPreferences data = context.getSharedPreferences("FreeMute", Context.MODE_PRIVATE);
-		//if (isPhoneCalling) {
+		SharedPreferences data = context.getSharedPreferences("FreeMute",
+				Context.MODE_PRIVATE);
+		// if (isPhoneCalling) {
 		String code = data.getString("code", "");
-		String url = "http://hd1.freebox.fr/pub/remote_control?code="+code+"&key=mute";
+		String url = "http://hd1.freebox.fr/pub/remote_control?code=" + code
+				+ "&key=mute";
 		try {
 			InputStream content = null;
 			HttpClient httpclient = new DefaultHttpClient();
@@ -35,15 +37,18 @@ public class FreeMutePhoneReceiver extends BroadcastReceiver {
 			content = response.getEntity().getContent();
 			StringBuilder sb = new StringBuilder();
 			try {
-			    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-			    String line = null;
-			    while ((line = reader.readLine()) != null) {
-			        sb.append(line);
-			    }
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(content));
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					sb.append(line);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			catch (IOException e) { e.printStackTrace(); }
-			catch (Exception e) { e.printStackTrace(); }
-			Log.d("LOG_TAG",sb.toString());
+			Log.d("LOG_TAG", sb.toString());
 			return true;
 		} catch (Exception e) {
 			Log.d(LOG_TAG, "Network exception", e);
@@ -53,45 +58,45 @@ public class FreeMutePhoneReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Bundle extras = intent.getExtras();
-		if (extras != null) {
-			String state = extras.getString(TelephonyManager.EXTRA_STATE);
+		SharedPreferences data = context.getSharedPreferences("FreeMute",
+				Context.MODE_PRIVATE);
+		if (data.getBoolean("activated", true)) {
+			Bundle extras = intent.getExtras();
+			if (extras != null) {
+				String state = extras.getString(TelephonyManager.EXTRA_STATE);
 
-			if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-				SharedPreferences data = context.getSharedPreferences("FreeMute", Context.MODE_PRIVATE);
-				String mode = data.getString("mode", "offhook");
-				if (mode.compareTo("ring")==0)
-				{
-					boolean mute = SwitchMuteFreebox(context);
-					Editor editor = data.edit(); 
-					editor.putBoolean("mute", mute);
-					editor.apply();
+				if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+					String mode = data.getString("mode", "offhook");
+					if (mode.compareTo("ring") == 0) {
+						boolean mute = SwitchMuteFreebox(context);
+						Editor editor = data.edit();
+						editor.putBoolean("mute", mute);
+						editor.apply();
+					}
 				}
-			}
 
-			if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
-				Log.i(LOG_TAG, "OFFHOOK");
-				SharedPreferences data = context.getSharedPreferences("FreeMute", Context.MODE_PRIVATE);
-				if (!data.getBoolean("mute", false)) {
-					boolean mute = SwitchMuteFreebox(context);
-					Editor editor = data.edit(); 
-					editor.putBoolean("mute", mute);
-					editor.apply();
+				if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+					Log.i(LOG_TAG, "OFFHOOK");
+					if (!data.getBoolean("mute", false)) {
+						boolean mute = SwitchMuteFreebox(context);
+						Editor editor = data.edit();
+						editor.putBoolean("mute", mute);
+						editor.apply();
+					}
 				}
-			}
 
-			if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-				Log.i(LOG_TAG, "IDLE");
-				SharedPreferences data = context.getSharedPreferences("FreeMute", Context.MODE_PRIVATE);
-				//if (isPhoneCalling) {
-				if (data.getBoolean("mute", false)) {
-					SwitchMuteFreebox(context);
-					Editor editor = data.edit(); 
-					editor.putBoolean("mute", false);
-					editor.apply();
+				if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+					Log.i(LOG_TAG, "IDLE");
+					// if (isPhoneCalling) {
+					if (data.getBoolean("mute", false)) {
+						SwitchMuteFreebox(context);
+						Editor editor = data.edit();
+						editor.putBoolean("mute", false);
+						editor.apply();
+					}
 				}
-			}
 
+			}
 		}
 	}
 

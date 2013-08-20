@@ -11,6 +11,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -25,6 +28,25 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		SharedPreferences data = getSharedPreferences("FreeMute",
+				Context.MODE_PRIVATE);
+
+		// activate checkbox
+		CheckBox chk = (CheckBox) findViewById(R.id.checkBoxActivate); 
+		chk.setOnClickListener(new OnClickListener() {
+		  @Override
+		  public void onClick(View v) {
+			boolean isActivated = ((CheckBox) v).isChecked(); 
+			SharedPreferences data = getSharedPreferences("FreeMute",
+					Context.MODE_PRIVATE);
+			Editor editor = data.edit();
+			editor.putBoolean("activated", isActivated);
+			editor.apply();
+		  }
+		});
+		// set value
+		chk.setChecked(data.getBoolean("activated", true));
+		
 		// Code Text field
 		EditText textMessage = (EditText) findViewById(R.id.editTextCode);
 		textMessage.addTextChangedListener(new TextWatcher() {
@@ -46,8 +68,6 @@ public class MainActivity extends Activity {
 			}
 		});
 		// set value
-		SharedPreferences data = getSharedPreferences("FreeMute",
-				Context.MODE_PRIVATE);
 		textMessage.setText(data.getString("code", ""));
 
 		// Mute mode radio box
@@ -92,13 +112,6 @@ public class MainActivity extends Activity {
 			RadioButton button = (RadioButton) findViewById(R.id.radioOffHook);
 			button.setChecked(true);
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 
 }

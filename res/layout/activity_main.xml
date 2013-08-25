@@ -73,7 +73,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MuteOnCall Pour Freebox © B.Boudaud"
+            android:text="MuteOnCall v1.0 Pour Freebox © UlySoftware"
             android:textStyle="italic" />
 
     </LinearLayout>

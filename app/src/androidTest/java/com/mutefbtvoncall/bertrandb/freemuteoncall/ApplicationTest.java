@@ -1,4 +1,4 @@
-package com.mutefbtvoncall.bertrandb.muteoncall;
+package com.mutefbtvoncall.bertrandb.freemuteoncall;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

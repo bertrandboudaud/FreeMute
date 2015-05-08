@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FreeMuteOnCAll.iml" filepath="$PROJECT_DIR$/FreeMuteOnCAll.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FreeMute.iml" filepath="$PROJECT_DIR$/FreeMute.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

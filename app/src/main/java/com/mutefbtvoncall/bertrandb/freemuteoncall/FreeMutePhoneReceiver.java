@@ -27,7 +27,6 @@ public class FreeMutePhoneReceiver extends BroadcastReceiver {
 	protected boolean SwitchMuteFreebox(Context context) {
 		SharedPreferences data = context.getSharedPreferences("FreeMute",
 				Context.MODE_PRIVATE);
-		// if (isPhoneCalling) {
 		String code = data.getString("code", "");
 		String url = "http://hd1.freebox.fr/pub/remote_control?code=" + code
 				+ "&key=mute";
@@ -63,6 +62,7 @@ public class FreeMutePhoneReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		SharedPreferences data = context.getSharedPreferences("FreeMute",
 				Context.MODE_PRIVATE);
+        Log.d(LOG_TAG,"onReceive mute = " + data.getBoolean("mute", false));
 		if (data.getBoolean("activated", true)) {
 			Bundle extras = intent.getExtras();
 			if (extras != null) {
@@ -71,10 +71,12 @@ public class FreeMutePhoneReceiver extends BroadcastReceiver {
 				if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
 					String mode = data.getString("mode", "offhook");
 					if (mode.compareTo("ring") == 0) {
-						boolean mute = SwitchMuteFreebox(context);
-						Editor editor = data.edit();
-						editor.putBoolean("mute", mute);
-						editor.apply();
+                        if (!data.getBoolean("mute", false)) {
+                            boolean mute = SwitchMuteFreebox(context);
+                            Editor editor = data.edit();
+                            editor.putBoolean("mute", mute);
+                            editor.apply();
+                        }
 					}
 				}
 
@@ -90,7 +92,6 @@ public class FreeMutePhoneReceiver extends BroadcastReceiver {
 
 				if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
 					Log.i(LOG_TAG, "IDLE");
-					// if (isPhoneCalling) {
 					if (data.getBoolean("mute", false)) {
 						SwitchMuteFreebox(context);
 						Editor editor = data.edit();

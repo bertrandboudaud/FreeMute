@@ -36,6 +36,11 @@ public class FreeMutePhoneReceiver extends BroadcastReceiver {
             InputStream content = null;
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpResponse response = httpclient.execute(new HttpGet(url));
+            int httpCode = response.getStatusLine().getStatusCode();
+            if (httpCode != 200) {
+                Log.d(LOG_TAG, "HTTP code != 200");
+                return false;
+            }
 			content = response.getEntity().getContent();
 			StringBuilder sb = new StringBuilder();
 			try {
